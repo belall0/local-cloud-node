@@ -81,6 +81,24 @@ Log in to your router's admin panel and configure **Port Forwarding** for the fo
 
 _Note: Different routers have different interfaces for these settings. Look for "WAN", "NAT", or "Port Forwarding" menus._
 
+### 3. Handling Dynamic Public IPs (Using No-IP)
+
+Most residential internet connections have dynamic public IP addresses, which change periodically. To ensure consistent access to your server, it is highly recommended to use a Dynamic DNS (DDNS) service like **No-IP**.
+
+1.  **Set up No-IP**: Create a free account on [No-IP](https://www.noip.com/) and register a hostname (e.g., `myserver.ddns.net`) that points to your current public IP.
+2.  **Configure Dynamic Update**: Run the No-IP Dynamic Update Client (DUC) on your server or configure DDNS settings in your router to automatically update No-IP whenever your public IP changes.
+3.  **DNS Configuration**:
+
+    - Go to your domain registrar's DNS settings (for your main domain, e.g., `example.com`).
+    - Add a **CNAME** record for your main domain or specific subdomain (e.g., `api`) pointing to your No-IP hostname (`myserver.ddns.net`).
+    - Add a **Wildcard CNAME** record (`*`) pointing to your No-IP hostname. This allows you to spin up instances on arbitrary subdomains (e.g., `dev1.example.com`, `dev2.example.com`) without constantly updating DNS records.
+
+    **Example DNS Records:**
+    | Type | Name | Value |
+    | :--- | :--- | :--- |
+    | CNAME | `api` | `myserver.ddns.net` |
+    | CNAME | `*` | `myserver.ddns.net` |
+
 ---
 
 ## Deployment
